@@ -1,0 +1,19 @@
+[package]
+name = "news_scraper"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = {version = "0.11", features = ["blocking", "json", "multipart"]}
+scraper = "0.13"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+pv_leopard = "*"
+url = "2.2"
+rodio = "0.13"
+dash-mpd = "0.16.4"
+tokio = { version = "1.17", features = ["full"] }
+dotenv = "0.15.0"
+once_cell = "1.13.0"
