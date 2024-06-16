@@ -17,8 +17,9 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn from_env() -> Config {
-        dotenv().ok();
+    pub fn from_env(env_file_path: &str) -> Config {
+        dotenv().ok(); // Default .env
+        dotenv::from_filename(env_file_path).ok(); // Customized .env
 
         let insta_username = env::var("INSTA_USERNAME").unwrap();
         let insta_password = env::var("INSTA_PASSWORD").unwrap();

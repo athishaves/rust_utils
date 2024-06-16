@@ -38,12 +38,15 @@ async fn reddit_auth() -> String {
 
     let mut params = std::collections::HashMap::new();
     params.insert("grant_type", "password");
-    params.insert("username", &CONFIG.reddit_username);
-    params.insert("password", &CONFIG.reddit_password);
+    params.insert("username", &CONFIG.get().unwrap().reddit_username);
+    params.insert("password", &CONFIG.get().unwrap().reddit_password);
 
     let request = client
         .post(REDDIT_AUTH_URL)
-        .basic_auth(&CONFIG.reddit_app_id, Some(&CONFIG.reddit_app_secret))
+        .basic_auth(
+            &CONFIG.get().unwrap().reddit_app_id,
+            Some(&CONFIG.get().unwrap().reddit_app_secret),
+        )
         .headers(headers)
         .form(&params);
 

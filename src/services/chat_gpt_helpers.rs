@@ -14,7 +14,7 @@ pub fn get_summary(content: &str) -> String {
 
     let mut headers = HeaderMap::new();
     headers.insert("Content-Type", "application/json".parse().unwrap());
-    headers.insert("Authorization", CONFIG.gpt_token.parse().unwrap());
+    headers.insert("Authorization", CONFIG.get().unwrap().gpt_token.parse().unwrap());
 
     let data = CompletionBody {
         model: "gpt-4o".to_string(),
@@ -57,7 +57,7 @@ pub fn get_audio(content: &str, output_path: &str) {
 
     let mut headers = HeaderMap::new();
     headers.insert("Content-Type", "application/json".parse().unwrap());
-    headers.insert("Authorization", CONFIG.gpt_token.parse().unwrap());
+    headers.insert("Authorization", CONFIG.get().unwrap().gpt_token.parse().unwrap());
 
     let data = SpeechRequest {
         model: "tts-1".to_string(),
@@ -78,7 +78,7 @@ pub fn get_subtitles(audio_path: &str) -> Vec<TranscribeSegment> {
     let client = Client::new();
 
     let mut headers = HeaderMap::new();
-    headers.insert("Authorization", CONFIG.gpt_token.parse().unwrap());
+    headers.insert("Authorization", CONFIG.get().unwrap().gpt_token.parse().unwrap());
 
     let mut file = File::open(audio_path).expect("File not found");
     let mut buffer = Vec::new();

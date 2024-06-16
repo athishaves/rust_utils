@@ -4,7 +4,7 @@ use crate::{models::gpt_transcribe::TranscribeSegment, CONFIG};
 
 pub fn get_subtitles(audio_path: &str) -> Vec<TranscribeSegment> {
     let leopard: Leopard = LeopardBuilder::new()
-        .access_key(CONFIG.pv_token.clone())
+        .access_key(CONFIG.get().unwrap().pv_token.clone())
         .init()
         .unwrap();
     let transcript = leopard.process_file(audio_path).unwrap();

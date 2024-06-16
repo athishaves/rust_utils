@@ -1,5 +1,7 @@
+use std::env;
+
 use models::{gpt_transcribe::TranscribeSegment, news_article::NewsArticle};
-use once_cell::sync::Lazy;
+use once_cell::sync::OnceCell;
 use services::{ffmpeg_helper, local_envs::Config};
 
 mod models;
@@ -96,9 +98,14 @@ async fn test_posts() {
     }
 }
 
-pub static CONFIG: Lazy<Config> = Lazy::new(|| Config::from_env());
+pub static CONFIG: OnceCell<Config> = OnceCell::new();
 
 #[tokio::main]
 async fn main() {
+    // SET ARGS
+    let args: Vec<String> = env::args().collect();
+    let env_file_path = &args[1];
+    CONFIG.set(Config::from_env(env_file_path));
+
     test_posts().await;
 }
