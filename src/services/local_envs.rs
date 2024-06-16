@@ -9,6 +9,11 @@ pub struct Config {
     pub gpt_token: String,
 
     pub pv_token: String,
+
+    pub reddit_username: String,
+    pub reddit_password: String,
+    pub reddit_app_id: String,
+    pub reddit_app_secret: String,
 }
 
 impl Config {
@@ -20,6 +25,10 @@ impl Config {
         let insta_scraper_path = env::var("INSTA_SCRAPER_PATH").unwrap();
         let gpt_token = env::var("GPT_TOKEN").unwrap();
         let pv_token = env::var("PV_TOKEN").unwrap();
+        let reddit_username = env::var("REDDIT_USERNAME").unwrap();
+        let reddit_password = env::var("REDDIT_PASSWORD").unwrap();
+        let reddit_app_id = env::var("REDDIT_APP_ID").unwrap();
+        let reddit_app_secret = env::var("REDDIT_APP_SECRET").unwrap();
 
         Config {
             insta_username,
@@ -27,6 +36,10 @@ impl Config {
             insta_scraper_path,
             gpt_token,
             pv_token,
+            reddit_username,
+            reddit_password,
+            reddit_app_id,
+            reddit_app_secret,
         }
     }
 }
