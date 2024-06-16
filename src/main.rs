@@ -73,8 +73,8 @@ fn pipeline(article_url: &str) {
     }
 }
 
-async fn test_posts() {
-    let posts = services::reddit_helpers::get_top_posts("Unexpected", "day").await;
+async fn test_posts(subreddit: &str) {
+    let posts = services::reddit_helpers::get_top_posts(subreddit, "day").await;
     for post in posts {
         if post.data.is_eligible_for_insta() {
             let download_result = services::reddit_helpers::download_reddit_video(&post).await;
@@ -104,8 +104,8 @@ pub static CONFIG: OnceCell<Config> = OnceCell::new();
 async fn main() {
     // SET ARGS
     let args: Vec<String> = env::args().collect();
-    let env_file_path = &args[1];
-    CONFIG.set(Config::from_env(env_file_path));
+    let subreddit = &args[1];
+    CONFIG.set(Config::from_env(&format!("{}.env", subreddit)));
 
-    test_posts().await;
+    test_posts(subreddit).await;
 }
