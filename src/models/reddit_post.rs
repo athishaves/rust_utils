@@ -1,5 +1,3 @@
-use std::path::Path;
-
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -62,11 +60,7 @@ impl RedditPostData {
     }
 
     pub fn is_eligible_for_insta(&self) -> bool {
-        !self.over_18
-            && self.is_video
-            && self.ups > 1000
-            && self.media.reddit_video.duration < 60.0
-            && !Path::new(&self.get_converted_video_path()).exists()
+        !self.over_18 && self.is_video && self.ups > 1000 && self.media.reddit_video.duration < 60.0
     }
 }
 

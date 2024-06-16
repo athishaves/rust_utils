@@ -2,7 +2,7 @@ use std::env;
 
 use models::{gpt_transcribe::TranscribeSegment, news_article::NewsArticle};
 use once_cell::sync::OnceCell;
-use services::{ffmpeg_helper, local_envs::Config};
+use services::{db_helper::DbService, ffmpeg_helper, local_envs::Config};
 
 mod models;
 mod services;
@@ -76,7 +76,10 @@ fn pipeline(article_url: &str) {
 async fn test_posts(subreddit: &str) {
     let posts = services::reddit_helpers::get_top_posts(subreddit, "day").await;
     for post in posts {
-        if post.data.is_eligible_for_insta() {
+        let post_id = post.data.get_post_id();
+        if post.data.is_eligible_for_insta()
+            && !DB_SERVICE.get().unwrap().check_post_exists(&post_id).await
+        {
             let download_result = services::reddit_helpers::download_reddit_video(&post).await;
             match download_result {
                 Ok(_) => {
@@ -89,7 +92,9 @@ async fn test_posts(subreddit: &str) {
                         &post.data.get_converted_video_path(),
                         &post.data.get_video_cover_path(),
                     );
-                    services::instagram_helpers::upload_to_instagram(&post).await;
+                    if services::instagram_helpers::upload_to_instagram(&post).await {
+                        DB_SERVICE.get().unwrap().add_post(&post_id).await;
+                    }
                     break;
                 }
                 Err(__) => {}
@@ -99,13 +104,17 @@ async fn test_posts(subreddit: &str) {
 }
 
 pub static CONFIG: OnceCell<Config> = OnceCell::new();
+pub static DB_SERVICE: OnceCell<DbService> = OnceCell::new();
 
 #[tokio::main]
 async fn main() {
     // SET ARGS
     let args: Vec<String> = env::args().collect();
     let subreddit = &args[1];
-    CONFIG.set(Config::from_env(&format!("{}.env", subreddit)));
+    let _ = CONFIG.set(Config::from_env(&format!("{}.env", subreddit)));
+
+    // INIT DB
+    let _ = DB_SERVICE.set(DbService::new().await);
 
     test_posts(subreddit).await;
 }

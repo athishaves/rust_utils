@@ -14,6 +14,9 @@ pub struct Config {
     pub reddit_password: String,
     pub reddit_app_id: String,
     pub reddit_app_secret: String,
+
+    pub mongodb_url: String,
+    pub mongodb_database: String,
 }
 
 impl Config {
@@ -30,6 +33,8 @@ impl Config {
         let reddit_password = env::var("REDDIT_PASSWORD").unwrap();
         let reddit_app_id = env::var("REDDIT_APP_ID").unwrap();
         let reddit_app_secret = env::var("REDDIT_APP_SECRET").unwrap();
+        let mongodb_url = env::var("MONGODB_URL").unwrap();
+        let mongodb_database = env::var("MONGODB_DATABASE").unwrap();
 
         Config {
             insta_username,
@@ -41,6 +46,8 @@ impl Config {
             reddit_password,
             reddit_app_id,
             reddit_app_secret,
+            mongodb_url,
+            mongodb_database,
         }
     }
 }

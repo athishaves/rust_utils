@@ -2,7 +2,7 @@ use std::process::Command;
 
 use crate::{models::reddit_post::RedditPost, CONFIG};
 
-pub async fn upload_to_instagram(post: &RedditPost) {
+pub async fn upload_to_instagram(post: &RedditPost) -> bool {
     let hashtags = vec!["#_flip__da__script_", "#unexpected", "#twist"];
     let title = format!("{}\n{}", post.data.title, hashtags.join(" "));
     let title = format!("\"{}\"", title.replace("\"", "\\\""));
@@ -26,4 +26,5 @@ pub async fn upload_to_instagram(post: &RedditPost) {
     } else {
         eprintln!("Couldn't upload to instagram {}", status);
     }
+    status.success()
 }

@@ -1,4 +1,5 @@
 pub mod chat_gpt_helpers;
+pub mod db_helper;
 pub mod ffmpeg_helper;
 pub mod instagram_helpers;
 pub mod local_envs;
