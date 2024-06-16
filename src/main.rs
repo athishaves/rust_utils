@@ -83,6 +83,10 @@ async fn test_posts() {
                         "flipdascript-alpha.png",
                         &post.data.get_converted_video_path(),
                     );
+                    services::ffmpeg_helper::generate_cover(
+                        &post.data.get_converted_video_path(),
+                        &post.data.get_video_cover_path(),
+                    );
                     services::instagram_helpers::upload_to_instagram(&post).await;
                     break;
                 }

@@ -57,6 +57,10 @@ impl RedditPostData {
         )
     }
 
+    pub fn get_video_cover_path(&self) -> String {
+        format!("{}/{}-cover.jpg", "converted_videos", self.get_post_id())
+    }
+
     pub fn is_eligible_for_insta(&self) -> bool {
         !self.over_18
             && self.is_video

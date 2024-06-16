@@ -205,6 +205,18 @@ pub fn resize_video(video_path: &str, logo_path: &str, output_video_path: &str) 
     }
 }
 
+pub fn generate_cover(video_path: &str, cover_path: &str) {
+    let command = format!(
+        "ffmpeg -i {} -vf \"select=eq(n\\,0)\" -q:v 3 {}",
+        video_path, cover_path,
+    );
+    let status = execute_command(&command);
+    if status.success() {
+        println!("Successfully generated cover");
+    } else {
+        eprintln!("Couldn't generate cover. Failed with status: {}", status);
+    }
+}
 
 fn execute_command(command: &str) -> ExitStatus {
     let mut child = Command::new("sh")

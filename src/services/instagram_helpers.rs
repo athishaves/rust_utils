@@ -7,12 +7,13 @@ pub async fn upload_to_instagram(post: &RedditPost) {
     let title = format!("{}\n{}", post.data.title, hashtags.join(" "));
     let title = format!("\"{}\"", title.replace("\"", "\\\""));
     let command = format!(
-        "node {} {} {} {} {}",
+        "node {} {} {} {} {} {}",
         CONFIG.insta_scraper_path,
         CONFIG.insta_username,
         CONFIG.insta_password,
         title,
         post.data.get_converted_video_path(),
+        post.data.get_video_cover_path(),
     );
     let mut child = Command::new("sh")
         .arg("-c")
