@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# export PATH=/home/ec2-user/.nvm/versions/node/v20.11.1/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
+export PATH=/home/ec2-user/.nvm/versions/node/v20.11.1/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
 
 # List of channels
 keys=("unexpected")
@@ -19,7 +19,7 @@ for i in "${!keys[@]}"; do
     for time in "${times[@]}"; do
         if [[ "$current_time" == "$time" ]]; then
             echo "EXECUTING for $key at $time"
-            # cd /home/ec2-user/rust_utils
+            cd /home/ec2-user/rust_utils
             ./target/debug/news_scraper $env_file
             break 2
         fi
