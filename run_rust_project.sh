@@ -5,7 +5,7 @@ export PATH=/home/ec2-user/.nvm/versions/node/v20.11.1/bin:/usr/local/sbin:/usr/
 # List of channels
 keys=("Unexpected")
 
-times_Unexpected=("06:05" "06:45" "08:45" "10:15" "13:10" "15:20" "16:30" "19:05" "20:20" "21:55" "22:30" "23:35")
+times_Unexpected=("06:05" "08:45" "13:15" "15:20" "18:35" "21:55")
 
 current_time=$(date +"%H:%M")
 
