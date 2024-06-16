@@ -2,7 +2,7 @@ use std::env;
 
 use models::{gpt_transcribe::TranscribeSegment, news_article::NewsArticle};
 use once_cell::sync::OnceCell;
-use services::{db_helper::DbService, ffmpeg_helper, local_envs::Config};
+use services::{db_helper::DbService, ffmpeg_helper, local_envs::Config, utils};
 
 mod models;
 mod services;
@@ -94,6 +94,10 @@ async fn test_posts(subreddit: &str) {
                     );
                     if services::instagram_helpers::upload_to_instagram(&post).await {
                         DB_SERVICE.get().unwrap().add_post(&post_id).await;
+
+                        let _ = utils::delete_file(&post.data.get_video_path());
+                        let _ = utils::delete_file(&&post.data.get_converted_video_path());
+                        let _ = utils::delete_file(&&post.data.get_video_cover_path());
                     }
                     break;
                 }
