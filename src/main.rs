@@ -96,8 +96,9 @@ async fn test_posts(subreddit: &str) {
                         DB_SERVICE.get().unwrap().add_post(&post_id).await;
 
                         let _ = utils::delete_file(&post.data.get_video_path());
-                        let _ = utils::delete_file(&&post.data.get_converted_video_path());
-                        let _ = utils::delete_file(&&post.data.get_video_cover_path());
+                        let _ = utils::delete_file(&post.data.get_converted_video_path());
+                        let _ = utils::delete_file(&post.data.get_video_cover_path());
+                        println!("Reddit post uploaded {:?}", post.data);
                     }
                     break;
                 }

@@ -32,6 +32,7 @@ pub struct RedditPostData {
     pub created: f32,
     pub url_overridden_by_dest: String,
     pub over_18: bool,
+    pub id: String,
     pub num_comments: i32,
     pub url: String,
     pub media: RedditMedia,
@@ -40,7 +41,7 @@ pub struct RedditPostData {
 
 impl RedditPostData {
     pub fn get_post_id(&self) -> String {
-        self.url.split('/').last().unwrap().to_string()
+        format!("{}:{}", self.subreddit.to_string(), self.id.to_string())
     }
 
     pub fn get_video_path(&self) -> String {
